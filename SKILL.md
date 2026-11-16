@@ -9,7 +9,11 @@ description: >-
   browser, stop font downloads via DevTools, keep text sharp at any size, or
   build a font preview / type tester that never ships the font to the client.
 license: MIT
-compatibility: opencode
+compatibility: >-
+  Any agent runtime; server-side JavaScript on Node.js 18+ or Bun 1.x.
+  Framework-agnostic through a Request/Response adapter. Requires Node runtime
+  for opentype.js, Sharp, and subset-font; not compatible with Edge-only
+  runtimes.
 metadata:
   audience: web-developers
   categories: "fonts,security,image-generation"
@@ -33,6 +37,9 @@ Agent **WAJIB** memanggil tool `context7` dalam kondisi berikut:
 Tiga pola untuk menampilkan teks dengan font komersial/privat tanpa pernah
 mengirim file font ke browser. Font tetap di server; browser hanya menerima
 **vektor**, **gambar**, atau **subset font sementara**.
+
+Untuk matriks kompatibilitas lintas runtime, framework, format font, dan
+browser, lihat [README.md](README.md).
 
 ## Kapan skill ini dipakai
 

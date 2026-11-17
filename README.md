@@ -14,6 +14,85 @@ Skill ini menyediakan tiga pilihan:
 > diekstrak, SVG masih berisi outline, dan subset dapat dipanen melalui banyak
 > request.
 
+## Instalasi sebagai AI Agent Skill
+
+Bagian ini memasang folder skill agar dapat ditemukan dan digunakan oleh AI
+agent. Ini berbeda dari instalasi package JavaScript pada bagian
+[Instalasi dependency](#instalasi-dependency).
+
+### Opsi 1: Instalasi dari repository Git
+
+Clone repository ke direktori skills agent:
+
+```bash
+mkdir -p ~/.agents/skills
+git clone https://github.com/rendrabagasdev/server-font-protection.git \
+  ~/.agents/skills/server-font-protection
+```
+
+Jika folder skill sudah ada, perbarui dengan:
+
+```bash
+cd ~/.agents/skills/server-font-protection
+git pull --ff-only
+```
+
+### Opsi 2: Instalasi dari folder lokal
+
+Jika folder ini sudah tersedia secara lokal:
+
+```bash
+mkdir -p ~/.agents/skills
+cp -R /path/ke/server-font-protection ~/.agents/skills/server-font-protection
+```
+
+Struktur minimal yang wajib ada:
+
+```text
+~/.agents/skills/server-font-protection/
+├── SKILL.md
+├── README.md
+└── references/
+    ├── 01-svg-paths.md
+    ├── 02-image-render.md
+    ├── 03-font-subsetting.md
+    └── 04-security-and-performance.md
+```
+
+### Verifikasi instalasi
+
+```bash
+test -f ~/.agents/skills/server-font-protection/SKILL.md \
+  && echo "Skill terpasang"
+```
+
+Pastikan `SKILL.md` memiliki frontmatter dengan:
+
+```yaml
+name: server-font-protection
+```
+
+### Aktifkan skill pada AI agent
+
+1. Restart atau reload sesi AI agent setelah folder skill ditambahkan.
+2. Pastikan agent dapat membaca `SKILL.md` dan folder `references/`.
+3. Minta agent melakukan tugas yang memicu skill, misalnya:
+
+   > Buat endpoint preview font yang tidak mengirim file TTF ke browser.
+
+4. Agent seharusnya memilih salah satu pola SVG path, raster PNG/WebP, atau
+   dynamic font subset dan mengikuti batasan keamanan di skill.
+
+Jika agent mendukung pemanggilan skill eksplisit, gunakan nama:
+
+```text
+server-font-protection
+```
+
+Jika skill belum terdeteksi, periksa kembali path instalasi, nama folder,
+frontmatter `SKILL.md`, lalu restart agent. Jangan menaruh font privat di
+folder skill; folder skill hanya berisi instruksi dan referensi.
+
 ## Kompatibilitas
 
 ### Runtime server
@@ -77,7 +156,7 @@ dan kirim hasil transformasi saja.
 PNG adalah pilihan paling kompatibel untuk gambar. WOFF2 cocok untuk browser
 modern, tetapi tetap mengirim sebagian data font sehingga bukan proteksi penuh.
 
-## Instalasi
+## Instalasi dependency
 
 ### Bun
 
